@@ -8,5 +8,4 @@ The app that we 'll create are just a simple form producer and a form consumer t
 
 ### Solution Desing:
 
-![Solution Design](<img width="740" alt="Screen_Shot_2021-05-16_at_15 58 29" src="https://user-images.githubusercontent.com/8471549/118579898-49a40d00-b765-11eb-9dd1-79fde5b0b5cb.png">
-)
+<img width="740" alt="Screen_Shot_2021-05-16_at_15 58 29" src="https://user-images.githubusercontent.com/8471549/118579971-693b3580-b765-11eb-8c47-fde73b31ca02.png">
