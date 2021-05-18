@@ -1,0 +1,53 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Consumer lambda with
+
+Resources:
+  FormConsumerDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: form-consumer-DLQ
+      FifoQueue: False
+      MessageRetentionPeriod: 1209600 # Setup to the maximum (14 days)
+
+  FormConsumerQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: form-consumer-queue
+      FifoQueue: False
+      ReceiveMessageWaitTimeSeconds: 20
+      MessageRetentionPeriod: 345600 # Setup to explicity default value (4 days)
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt FormConsumerDLQ.Arn
+        maxReceiveCount: 3
+
+  FormConsumerLambda:
+    Type: AWS::Serverless::Function 
+    Properties:
+      CodeUri: app/
+      Handler: app.handler
+      Runtime: nodejs12.x
+      Timeout: 3
+      MemorySize: 256
+      Events:
+        FormConsumerMessage:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt FormConsumerQueue.Arn
+            BatchSize: 10
+Outputs:
+  FormConsumerLambda:
+    Description: FormConsumerLambda function name
+    Value: !Ref FormConsumerLambda
+  
+  FormConsumerQueueName:
+    Description: SQS queue name
+    Value: !GetAtt FormConsumerQueue.QueueName
+
+  FormConsumerQueueArn:
+    Description: SQS queue ARN
+    Value: !GetAtt FormConsumerQueue.Arn
+
+  FormConsumerQueueUrl:
+    Description: SQS queue URL
+    Value: !Ref FormConsumerQueue
