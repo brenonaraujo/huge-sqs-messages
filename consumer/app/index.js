@@ -1,4 +1,4 @@
-
+import { SqsConsumer } from 'sns-sqs-big-payload';
 
 exports.handler =  async (event, context) => {
     return {

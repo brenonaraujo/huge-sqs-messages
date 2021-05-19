@@ -10,5 +10,8 @@
     "consumer;sqs;aws;x-ray;"
   ],
   "author": "brenonaraujo",
-  "license": "MIT"
+  "license": "MIT",
+  "dependencies": {
+    "sns-sqs-big-payload": "^0.1.2"
+  }
 }
