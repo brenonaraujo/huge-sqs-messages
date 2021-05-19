@@ -1,4 +1,8 @@
-import { SqsConsumer, SqsConsumerEvents } from 'sns-sqs-big-payload';
+const { SqsConsumer } = require('sns-sqs-big-payload');
+const Dynamoose = require('dynamoose');
+const FormService = require('./src/services/form.service');
+
+const formService = new FormService(Dynamoose);
 
 const sqsConsumer = SqsConsumer.create({
     region: 'us-east-1',
@@ -11,7 +15,7 @@ const sqsConsumer = SqsConsumer.create({
     },
     parsePayload: (raw) => JSON.parse(raw),
     handleMessage: async ({ payload }) => {
-        // ...
+      return await formService.formPersist(payload);
     },
 });
 
