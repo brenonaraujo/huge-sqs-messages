@@ -1,8 +1,8 @@
 class FormRepository {
-    constructor(Dynamoose) {
-        this.Dynamoose = Dynamoose;
-        this.FormSchema = setupSchema();
-        this.FormModel = new this.Dynamoose.model("FormsTable", FormSchema);
+    constructor(dynamoose) {
+        this.Dynamoose = dynamoose;
+        this.FormSchema = this.setupSchema();
+        this.FormModel = this.Dynamoose.model("FormsTable", this.FormSchema);
     }
 
     setupSchema() {

@@ -15,15 +15,16 @@ const sqsConsumer = SqsConsumer.create({
     },
     parsePayload: (raw) => JSON.parse(raw),
     handleMessage: async ({ payload }) => {
-      return await formService.formPersist(payload);
+        console.log(payload);
+        return await formService.formPersist(payload);
     },
 });
 
-exports.handler =  async (event, context) => {
+exports.handler = async (event, context) => {
     await Promise.all(
         event.Records.map(async (record) => {
             try {
-                await sqsConsumer.processMessage(record, { deleteAfterProcessing: false });
+               return await sqsConsumer.processMessage(record, { deleteAfterProcessing: false });
             } catch (error) {
                 console.error(error);
                 return error;
