@@ -1,0 +1,127 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Consumer lambda with
+Resources:
+  FormConsumerDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: form-consumer-DLQ
+      MessageRetentionPeriod: 1209600
+  FormConsumerQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      QueueName: form-consumer-queue
+      ReceiveMessageWaitTimeSeconds: 20
+      MessageRetentionPeriod: 345600
+      RedrivePolicy:
+        deadLetterTargetArn:
+          Fn::GetAtt:
+          - FormConsumerDLQ
+          - Arn
+        maxReceiveCount: 3
+  FormsTable:
+    Type: AWS::DynamoDB::Table
+    Properties:
+      TableName: FormsTable
+      AttributeDefinitions:
+      - AttributeName: FormId
+        AttributeType: S
+      - AttributeName: CreatedDate
+        AttributeType: S
+      KeySchema:
+      - AttributeName: FormId
+        KeyType: HASH
+      - AttributeName: CreatedDate
+        KeyType: RANGE
+      BillingMode: PAY_PER_REQUEST
+  FormConsumerLambdaRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+        - Effect: Allow
+          Principal:
+            Service:
+            - lambda.amazonaws.com
+          Action:
+          - sts:AssumeRole
+      Path: /
+      Policies:
+      - PolicyName: Logs
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - logs:*
+            Resource: arn:aws:logs:*:*:*
+      - PolicyName: DynamoDBFullaccess
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - dynamodb:*
+            Resource:
+              Fn::GetAtt:
+              - FormsTable
+              - Arn
+      - PolicyName: SQSFullaccess
+        PolicyDocument:
+          Version: '2012-10-17'
+          Statement:
+          - Effect: Allow
+            Action:
+            - sqs:GetQueueUrl
+            - sqs:ReceiveMessage
+            - sqs:DeleteMessage
+            - sqs:ChangeMessageVisibility
+            - sqs:GetQueueAttributes
+            - sqs:ListQueues
+            Resource:
+              Fn::GetAtt:
+              - FormConsumerQueue
+              - Arn
+  FormConsumerLambda:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/0a28415bd47ce6c9989491c3d68419df
+      Handler: app.handler
+      Runtime: nodejs12.x
+      Timeout: 3
+      Role:
+        Fn::GetAtt:
+        - FormConsumerLambdaRole
+        - Arn
+      MemorySize: 256
+      Events:
+        FormConsumerMessage:
+          Type: SQS
+          Properties:
+            Queue:
+              Fn::GetAtt:
+              - FormConsumerQueue
+              - Arn
+            BatchSize: 10
+Outputs:
+  FormConsumerLambda:
+    Description: FormConsumerLambda function name
+    Value:
+      Ref: FormConsumerLambda
+  FormConsumerQueueName:
+    Description: SQS queue name
+    Value:
+      Fn::GetAtt:
+      - FormConsumerQueue
+      - QueueName
+  FormConsumerQueueArn:
+    Description: SQS queue ARN
+    Value:
+      Fn::GetAtt:
+      - FormConsumerQueue
+      - Arn
+  FormConsumerQueueUrl:
+    Description: SQS queue URL
+    Value:
+      Ref: FormConsumerQueue

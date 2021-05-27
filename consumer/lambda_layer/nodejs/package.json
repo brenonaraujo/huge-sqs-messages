@@ -1,0 +1,17 @@
+{
+  "name": "form-producer",
+  "version": "1.0.0",
+  "description": "Form producer worker",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "consumer;sqs;aws;x-ray;"
+  ],
+  "author": "brenonaraujo",
+  "license": "MIT",
+  "dependencies": {
+    "sns-sqs-big-payload": "^0.1.2"
+  }
+}
