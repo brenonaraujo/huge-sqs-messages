@@ -8,7 +8,7 @@ Resources:
         - nodejs14.x
         - nodejs12.x
       Content:
-        S3Bucket: a
+        S3Bucket: temp-bucket
         S3Key: layer.zip
       Description: Lambda layer with node dependecies to consumer lambda
       LayerName: form-consumer-nodejs-layer
