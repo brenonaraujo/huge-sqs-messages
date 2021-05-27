@@ -1,0 +1,21 @@
+
+{
+    "Records": [
+        {
+            "messageId": "4a506a82-6af0-4acc-8a90-a7b14d3834ee",
+            "receiptHandle": "AQEB0ioxFZqXaY8l169mV87RngkOebjiOAph64DH+jzLpaGmVO/InD0EVOPp5ZmvSb/69fqhzzOPi0XnFoXpbX+qNeaGCm76b/icozXYKsdRoXTvU8UtAV+xiAoSrYKyHO6C7Ozo72pQHPLewOsk+Z+0A6hWOlIgK5FbvV+1lXHiOL/gD/V2RCJX5DfJtGT4JDCbvibl0gSgOCFwSxr1EjenOBVfYmvC1ZPFPvcx9vVQFEEYGFK9bUDOkoB2MCbAMVPA+IrSKj+vfyItmZRmSVXKNMKI8hbeVcJ3eZFAcoHsZ50T8KSyAqMCVLiL2gsMoJem4g2aZS5K00BfW56WMaej/wIH0mwhcLlHzxYi89guuPfsZYtfAiErT9wATQVYSDhmNExnGUP8BHzCQBWZ5iDv6A==",
+            "body": "{\"S3Payload\":{\"Id\":\"87420052-464b-41f4-9a0a-15c294a96c67\",\"Bucket\":\"sqs-huge-messages\",\"Key\":\"87420052-464b-41f4-9a0a-15c294a96c67.json\",\"Location\":\"https://sqs-huge-messages.s3.amazonaws.com/87420052-464b-41f4-9a0a-15c294a96c67.json\"}}",
+            "attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1622119101373",
+                "SenderId": "AIDA2XCG746365J7DP5CK",
+                "ApproximateFirstReceiveTimestamp": "1622119101374"
+            },
+            "messageAttributes": {},
+            "md5OfBody": "d9ef41ea1449f00a37057090fabb2e3d",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:us-east-1:736735782839:form-consumer-queue",
+            "awsRegion": "us-east-1"
+        }
+    ]
+}

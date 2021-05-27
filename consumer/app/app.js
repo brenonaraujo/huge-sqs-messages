@@ -10,8 +10,8 @@ const sqsConsumer = SqsConsumer.create({
     getPayloadFromS3: true,
     s3Bucket: 'sqs-huge-messages',
     transformMessageBody: (body) => {
-        const snsMessage = JSON.parse(body);
-        return snsMessage.Message;
+        const sqsMessage = JSON.parse(body);
+        return sqsMessage.Message;
     },
     parsePayload: (raw) => JSON.parse(raw),
     handleMessage: async ({ payload }) => {

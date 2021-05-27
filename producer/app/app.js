@@ -16,10 +16,10 @@ async function messageProducerApp() {
     for (let index = 0; index < 1; index++) {
         try {
             performance.mark(`setupIndex[${index}]`);
-            affodableMessage.index = index;
+            hugeMessage.index = index;
             performance.measure(`setupIndex[${index}] to now`, `setupIndex[${index}]`);
             performance.mark(`sendingMessage[${index}]`);
-            await formConsumerQueue.sendJSON(affodableMessage); // TEMP
+            await formConsumerQueue.sendJSON(hugeMessage); // TEMP
             console.log(`Message with index: ${index} sended to the queue!`);
             performance.measure(`sendingMessage[${index}] to finish`, `sendingMessage[${index}]`);
         } catch (error) {
