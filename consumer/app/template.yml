@@ -82,7 +82,7 @@ Resources:
   FormConsumerLambda:
     Type: AWS::Serverless::Function 
     Properties:
-      CodeUri: ../app/
+      CodeUri: .
       Handler: app.handler
       Runtime: nodejs12.x
       Timeout: 3

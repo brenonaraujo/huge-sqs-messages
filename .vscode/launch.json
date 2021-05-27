@@ -15,7 +15,7 @@
             },
             "lambda": {
                 "runtime": "nodejs12.x",
-                "payload": {"path": "${workspaceFolder}/consumer/events/affordable.sqs.json"},
+                "payload": {"path": "${workspaceFolder}/resources/messages/affordable.sqs.json"},
                 "environmentVariables": {}
             }
         },
