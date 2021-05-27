@@ -1,0 +1,14 @@
+AWSTemplateFormatVersion: 2010-09-09
+
+Resources:
+  FormConsumerLambdaLayer:
+    Type: AWS::Lambda::LayerVersion
+    Properties:
+      CompatibleRuntimes:
+        - nodejs14.x
+        - nodejs12.x
+      Content:
+        S3Bucket: a
+        S3Key: layer.zip
+      Description: Lambda layer with node dependecies to consumer lambda
+      LayerName: form-consumer-nodejs-layer
