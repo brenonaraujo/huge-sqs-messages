@@ -5,17 +5,19 @@ class FormService {
         this.FormRepository = new FormRepository(Dynamoose);
     }
 
-    formPersist(form) {
+    async formPersist(form) {
         try {
+            form.FormId = form._id;
+            form.CreatedDate = new Date().toISOString();
             const formModel = new this.FormRepository.FormModel({
                 ...form
             });
-            console.log(`[INFO](${this.name}) - FormModel to persist created!`);
-            formModel.save();
-            console.log(`[INFO](${this.name}) - Form persisted!`);
+            console.log(`[INFO](${form.FormId}) - FormModel to persist created!`);
+            await formModel.save();
+            console.log(`[INFO](${form.FormId}) - Form persisted!`);
             return Promise.resolve();
         } catch (error) {
-            console.error(`[ERROR](${this.name}) - Error to persist!`)
+            console.error(`[ERROR] - Error to persist!`)
             return Promise.reject(error);
         }
     }

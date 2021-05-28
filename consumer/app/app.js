@@ -9,23 +9,19 @@ const sqsConsumer = SqsConsumer.create({
     region: 'us-east-1',
     getPayloadFromS3: true,
     s3Bucket: 'sqs-huge-messages',
-    transformMessageBody: (body) => {
-        const sqsMessage = JSON.parse(body);
-        return sqsMessage.Message;
-    },
     parsePayload: (raw) => JSON.parse(raw),
     handleMessage: async ({ payload }) => {
-        console.log(payload);
         return await formService.formPersist(payload);
     },
 });
 console.log(`Consumer service created...`);
 
 exports.handler = async (event, context) => {
-    console.log(`Event: ${JSON.stringify(event)}`);
     console.log(`Message/s received.`);
     await Promise.all(
         event.Records.map(async (record) => {
+            record.Body = record.body;
+            record.MessageAttributes = record.messageAttributes;
             try {
                 console.log(`Starting to process message.`)
                 return await sqsConsumer.processMessage(record, { deleteAfterProcessing: false });

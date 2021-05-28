@@ -8,7 +8,7 @@ class FormRepository {
     setupSchema() {
         return new this.Dynamoose.Schema({
             "FormId": String,
-            "CreatedDate": Date
+            "CreatedDate": String
         }, {
             "saveUnknown": true,
             "timestamps": {
