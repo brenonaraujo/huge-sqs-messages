@@ -12,6 +12,7 @@
   "author": "brenonaraujo",
   "license": "MIT",
   "dependencies": {
+    "dynamoose": "^2.7.3",
     "sns-sqs-big-payload": "^0.1.2"
   }
 }

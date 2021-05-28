@@ -20,7 +20,7 @@ exports.handler = async (event, context) => {
     console.log(`Message/s received.`);
     await Promise.all(
         event.Records.map(async (record) => {
-            record.Body = record.body;
+            record.Body = record.body; 
             record.MessageAttributes = record.messageAttributes;
             try {
                 console.log(`Starting to process message.`)
