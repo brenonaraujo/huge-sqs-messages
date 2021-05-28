@@ -6,6 +6,6 @@ That project will support all resources needed to implement the huge SQS message
 
 The app that we 'll create are just a simple form producer and a form consumer that 'll persist at noSql document, I mean, the producer will send a message containing an object that's represents a form with too many coluns and arrays, that's will be highest than the message size limit in SQS (256 Kib).
 
-### Solution Desing:
+### Solution Design:
 
 <img width="740" alt="Screen_Shot_2021-05-16_at_15 58 29" src="https://user-images.githubusercontent.com/8471549/118579971-693b3580-b765-11eb-8c47-fde73b31ca02.png">
