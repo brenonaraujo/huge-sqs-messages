@@ -1,11 +1,16 @@
-FROM alpine
+FROM alpine:3.13
 RUN apk update && apk upgrade
-RUN apk add nodejs
-RUN apk add npm
+RUN apk add --update nodejs npm
 
-WORKDIR /app
+RUN addgroup -S node && adduser -S node -G node
+USER node
 
-RUN npm install
+RUN mkdir /home/node/app
+WORKDIR /home/node/app
+COPY --chown=node:node package-lock.json package.json ./
 
-ADD . /app
-ENTRYPOINT [ "node", "app.js"]
+RUN npm ci
+
+COPY --chown=node:node . .
+
+CMD [ "node", "app.js"]
