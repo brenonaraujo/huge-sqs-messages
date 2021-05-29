@@ -10,5 +10,5 @@ With all required tools installed you can execute the function `formConsumer:aff
 
 # Thanks for the help
 
-- The library that abtract the interation between SQS and S3 https://www.npmjs.com/package/sns-sqs-big-payload
-- Files are generated with that free tool https://www.json-generator.com
+- The library that abstract the transfer between SQS and S3 https://www.npmjs.com/package/sns-sqs-big-payload
+- Files were generated with that free tool https://www.json-generator.com
