@@ -40,26 +40,21 @@ async function messageProducerApp() {
         })
 }
 
-EventEmitter.on('', () => {
+EventEmitter.on('', () => {}); // unfortunately, the lib hasn't an event for each message upload :/ maybe we can do some improvements here too
 
-});
-
+// Measurements section 
 const obs = new PerformanceObserver((items) => {
     items.getEntries().forEach(item => {
         const sendAllElapsed = item.duration.toFixed(3);
         console.log(`(${item.name}) - Time elapsed: ${sendAllElapsed} ms`);
         if (item.name === 'sendAllMessages to finish') {
             console.log(`
-            Messages sent: ${numberOfMessagesToSend},
-            Messages sent per sec: ${((numberOfMessagesToSend/sendAllElapsed)*1000)} Msg/s,
-            `);
+                Messages sent: ${numberOfMessagesToSend},
+                Messages sent per sec: ${((numberOfMessagesToSend/sendAllElapsed)*1000)} Msg/s`
+            );
         }
     })
 });
 obs.observe({ type: 'measure' });
 
 messageProducerApp();
-
-
-
-
