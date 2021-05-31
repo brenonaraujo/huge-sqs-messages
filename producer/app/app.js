@@ -1,6 +1,6 @@
 const { PerformanceObserver, performance } = require('perf_hooks');
 const uuid = require('uuid');
-const messagePayload = require('./resources/huge.mock.json');
+const messagePayload = require('./resources/normal.mock.json');
 const { SqsProducer } = require('sns-sqs-big-payload');
 
 const formConsumerQueue = SqsProducer.create({
