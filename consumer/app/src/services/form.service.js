@@ -7,7 +7,7 @@ class FormService {
 
     async formPersist(form) {
         try {
-            form.FormId = form._id;
+            form.FormId = form.guid;
             form.CreatedDate = new Date().toISOString();
             const formModel = new this.FormRepository.FormModel({
                 ...form
