@@ -86,10 +86,13 @@ Resources:
   FormConsumerLambda:
     Type: AWS::Serverless::Function
     Properties:
-      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/b0f9fc98b2118fb1201594c7cd7fa9b7
+      Tracing: Active
+      Layers:
+      - Ref: Libs
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/ebb375efd5784b02602bb25efa99b99b
       Handler: app.handler
       Runtime: nodejs12.x
-      Timeout: 3
+      Timeout: 60
       Role:
         Fn::GetAtt:
         - FormConsumerLambdaRole
@@ -104,6 +107,16 @@ Resources:
               - FormConsumerQueue
               - Arn
             BatchSize: 10
+  Libs:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: consumer-nodejs-lib
+      Description: Dependencies for the consumer lambda.
+      ContentUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/9dd517d5c12de84d72f6c4e11887bf93
+      CompatibleRuntimes:
+      - nodejs10.x
+      - nodejs12.x
+      - nodejs14.x
 Outputs:
   FormConsumerLambda:
     Description: FormConsumerLambda function name
