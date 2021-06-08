@@ -13,25 +13,30 @@ const sqsConsumer = SqsConsumer.create({
     s3Bucket: 'sqs-huge-messages',
     parsePayload: (raw) => JSON.parse(raw),
     handleMessage: async ({ payload }) => {
-        return await formService.formPersist(payload);
+        return await formService.getPersistableForm(payload);
     },
 });
 console.log(`Consumer service created...`);
 
 exports.handler = async (event, context) => {
     console.log(`Message/s received.`);
+    const persistableForms = [];
     await Promise.all(
         event.Records.map(async (record) => {
             record.Body = record.body; 
             record.MessageAttributes = record.messageAttributes;
             try {
                 console.log(`Starting to process message.`)
-                return await sqsConsumer.processMessage(record, { deleteAfterProcessing: false });
+                let persistableForm = await sqsConsumer.processMessage(record, { deleteAfterProcessing: false });
+                persistableForms.push(persistableForm);
+                return;
             } catch (error) {
                 console.error(error);
                 return error;
             }
         })
     );
+    const result = await formService.batchFormPersist(persistableForms);
+    console.log(result);
     return {}
 }

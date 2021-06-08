@@ -4,20 +4,35 @@ class FormService {
     constructor(Dynamoose) {
         this.FormRepository = new FormRepository(Dynamoose);
     }
-
-    async formPersist(form) {
+    /**
+     * @param {*} form 
+     * @returns persistableForm
+     */
+    async getPersistableForm(form) {
         try {
             form.FormId = form.guid;
+            console.log(`[INFO](${form.FormId}) - Building persistable form...`);
             form.CreatedDate = new Date().toISOString();
-            const formModel = new this.FormRepository.FormModel({
-                ...form
-            });
-            console.log(`[INFO](${form.FormId}) - FormModel to persist created!`);
-            await formModel.save();
-            console.log(`[INFO](${form.FormId}) - Form persisted!`);
-            return Promise.resolve();
+            const formModel = form;
+            console.log(`[INFO](${form.FormId}) - FormModel to persist builded!`);
+            return Promise.resolve(formModel);
         } catch (error) {
-            console.error(`[ERROR] - Error to persist!`)
+            console.error(`[ERROR] - Error to create the persistable form model!`)
+            return Promise.reject(error);
+        }
+    }
+    /**
+     * @param {*} forms 
+     * @returns {Promise} result
+     */
+    async batchFormPersist(forms) {
+        try {
+            console.log(`[INFO] - Persisting forms`);
+            result = await this.FormRepository.FormModel.batchPut(forms);
+            console.log(`[INFO] - All forms persisted!`);
+            return Promise.resolve(result);
+        } catch (error) {
+            console.error(`[ERROR] - Error to persist forms in batch operation,`, error);
             return Promise.reject(error);
         }
     }
