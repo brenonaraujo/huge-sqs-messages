@@ -78,6 +78,8 @@ Resources:
             - sqs:GetQueueAttributes
             - sqs:ListQueues
             Resource: !GetAtt FormConsumerQueue.Arn
+      ManagedPolicyArns:
+              - 'arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy'
 
   FormConsumerLambda:
     Type: AWS::Serverless::Function 
@@ -85,6 +87,7 @@ Resources:
       Tracing: Active
       Layers:
         - !Ref Libs
+        - !Sub "arn:aws:lambda:${AWS::Region}:580247275435:layer:LambdaInsightsExtension:14"
       CodeUri: .
       Handler: app.handler
       Runtime: nodejs12.x

@@ -89,7 +89,7 @@ Resources:
       Tracing: Active
       Layers:
       - Ref: Libs
-      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/281cd63fcd1512fc31287405389bdc58
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/bc3e109ded987283a37ab72c7297bb3f
       Handler: app.handler
       Runtime: nodejs12.x
       Timeout: 30
