@@ -1,6 +1,8 @@
 console.log(`Form Consumer Lambda Starting...`);
 const { SqsConsumer } = require('sns-sqs-big-payload');
 const Dynamoose = require('dynamoose');
+var AWSXRay = require('aws-xray-sdk');
+Dynamoose.AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const FormService = require('./src/services/form.service');
 console.log(`Libraries loaded...`);
 
