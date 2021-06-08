@@ -17,16 +17,14 @@ const sqsConsumer = SqsConsumer.create({
             return formService.getPersistableForm(record.payload);
         });
         return await formService.batchFormPersist(messages);
-    },
-    handleMessage: async ({ payload }) => {
-        return await formService.getPersistableForm(payload);
-    },
+    }
 });
 console.log(`Consumer service created...`);
 
 exports.handler = async (event, context) => {
     try {
         console.log(`Message/s received.`);
+        // TODO: The library that we are using sns-sqs-huge-payload need the body in upper case -.-
         const rawMessages = event.Records.map((record) => {
             record.Body = record.body;
             record.MessageAttributes = record.messageAttributes;
