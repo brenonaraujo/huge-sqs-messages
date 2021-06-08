@@ -28,7 +28,7 @@ class FormService {
     async batchFormPersist(forms) {
         try {
             console.log(`[INFO] - Persisting forms`);
-            result = await this.FormRepository.FormModel.batchPut(forms);
+            let result = await this.FormRepository.FormModel.batchPut(forms);
             console.log(`[INFO] - All forms persisted!`);
             return Promise.resolve(result);
         } catch (error) {

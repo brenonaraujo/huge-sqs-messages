@@ -12,9 +12,11 @@ const sqsConsumer = SqsConsumer.create({
     getPayloadFromS3: true,
     s3Bucket: 'sqs-huge-messages',
     parsePayload: (raw) => JSON.parse(raw),
-    handleBatch: async (messages) => {
-        let payloads = messages.map(message => message.payload);
-        return await formService.batchFormPersist(payloads);
+    handleBatch: async (records) => {
+        let messages = records.map(record => {
+            return formService.getPersistableForm(record.payload);
+        });
+        return await formService.batchFormPersist(messages);
     },
     handleMessage: async ({ payload }) => {
         return await formService.getPersistableForm(payload);
