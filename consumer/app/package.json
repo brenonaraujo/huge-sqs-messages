@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "package": "sam package --template-file template.yml --output-template-file package.yml  --s3-bucket cf-templates-qmg6cj5zoef4-us-east-1",
-    "beforeDeploy": "rm -r node_modules && cd .. $$ cd lib/nodejs && npm install",
+    "cleanModules": "[ -d 'node_modules' ] && rm -r node_modules",
+    "beforeDeploy": "npm run cleanModules || cd .. $$ cd lib/nodejs && npm install",
     "deploy": "npm run beforeDeploy && npm run package && sam deploy --template-file package.yml --stack-name form-consumer-stack --region us-east-1 --capabilities CAPABILITY_IAM"
   },
   "keywords": [

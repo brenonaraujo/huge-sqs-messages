@@ -88,7 +88,7 @@ Resources:
       CodeUri: .
       Handler: app.handler
       Runtime: nodejs12.x
-      Timeout: 60
+      Timeout: 30
       Role: !GetAtt FormConsumerLambdaRole.Arn
       MemorySize: 256
       Events:

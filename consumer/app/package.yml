@@ -89,10 +89,10 @@ Resources:
       Tracing: Active
       Layers:
       - Ref: Libs
-      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/ebb375efd5784b02602bb25efa99b99b
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/5add8547968a549a8dd4e58ea7e2c308
       Handler: app.handler
       Runtime: nodejs12.x
-      Timeout: 60
+      Timeout: 30
       Role:
         Fn::GetAtt:
         - FormConsumerLambdaRole
