@@ -24,7 +24,7 @@ async function messageProducerApp() {
     for (let index = 0; index < numberOfMessagesToSend; index++) {
         try {
             performance.mark(`setupIndex[${index}]`);
-            messagePayload._id = uuid.v4();
+            messagePayload.guid = uuid.v4();
             performance.measure(`setupIndex[${index}] to now`, `setupIndex[${index}]`);
             if (sendType === 'Sync') {
                 performance.mark(`buildingSyncMessage[${index}]`);

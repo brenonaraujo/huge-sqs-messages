@@ -89,7 +89,7 @@ Resources:
       Tracing: Active
       Layers:
       - Ref: Libs
-      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/5add8547968a549a8dd4e58ea7e2c308
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/09929b82ba7d90a394ada1eec0d16f54
       Handler: app.handler
       Runtime: nodejs12.x
       Timeout: 30
@@ -112,7 +112,7 @@ Resources:
     Properties:
       LayerName: consumer-nodejs-lib
       Description: Dependencies for the consumer lambda.
-      ContentUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/9dd517d5c12de84d72f6c4e11887bf93
+      ContentUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/3e5e5c742a3c483cccec65e500d4582d
       CompatibleRuntimes:
       - nodejs10.x
       - nodejs12.x
