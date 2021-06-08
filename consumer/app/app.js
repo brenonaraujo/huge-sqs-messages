@@ -1,8 +1,8 @@
 console.log(`Form Consumer Lambda Starting...`);
 const { SqsConsumer } = require('sns-sqs-big-payload');
 const Dynamoose = require('dynamoose');
-var AWSXRay = require('aws-xray-sdk');
-Dynamoose.AWS = AWSXRay.captureAWS(require('aws-sdk'));
+// var AWSXRay = require('aws-xray-sdk');
+// Dynamoose.AWS = AWSXRay.captureAWS(require('aws-sdk'));
 const FormService = require('./src/services/form.service');
 console.log(`Libraries loaded...`);
 
@@ -12,6 +12,10 @@ const sqsConsumer = SqsConsumer.create({
     getPayloadFromS3: true,
     s3Bucket: 'sqs-huge-messages',
     parsePayload: (raw) => JSON.parse(raw),
+    handleBatch: async (messages) => {
+        let payloads = messages.map(message => message.payload);
+        return await formService.batchFormPersist(payloads);
+    },
     handleMessage: async ({ payload }) => {
         return await formService.getPersistableForm(payload);
     },
@@ -19,24 +23,19 @@ const sqsConsumer = SqsConsumer.create({
 console.log(`Consumer service created...`);
 
 exports.handler = async (event, context) => {
-    console.log(`Message/s received.`);
-    const persistableForms = [];
-    await Promise.all(
-        event.Records.map(async (record) => {
-            record.Body = record.body; 
+    try {
+        console.log(`Message/s received.`);
+        const rawMessages = event.Records.map((record) => {
+            record.Body = record.body;
             record.MessageAttributes = record.messageAttributes;
-            try {
-                console.log(`Starting to process message.`)
-                let persistableForm = await sqsConsumer.processMessage(record, { deleteAfterProcessing: false });
-                persistableForms.push(persistableForm);
-                return;
-            } catch (error) {
-                console.error(error);
-                return error;
-            }
+            return record;
         })
-    );
-    const result = await formService.batchFormPersist(persistableForms);
-    console.log(result);
-    return {}
+        console.log(`Starting to process messages.`)
+        const result = await sqsConsumer.processBatch(rawMessages);
+        console.log(result);
+        return {};
+    } catch (error) {
+        console.error(error);
+        return error;
+    }
 }

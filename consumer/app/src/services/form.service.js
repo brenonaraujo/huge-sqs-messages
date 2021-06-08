@@ -8,17 +8,17 @@ class FormService {
      * @param {*} form 
      * @returns persistableForm
      */
-    async getPersistableForm(form) {
+    getPersistableForm(rawForm) {
         try {
-            form.FormId = form.guid;
-            console.log(`[INFO](${form.FormId}) - Building persistable form...`);
-            form.CreatedDate = new Date().toISOString();
-            const formModel = form;
-            console.log(`[INFO](${form.FormId}) - FormModel to persist builded!`);
-            return Promise.resolve(formModel);
+            rawForm.FormId = rawForm.guid;
+            console.log(`[INFO](${rawForm.FormId}) - Building persistable form...`);
+            rawForm.CreatedDate = new Date().toISOString();
+            const formModel = rawForm;
+            console.log(`[INFO](${rawForm.FormId}) - FormModel to persist builded!`);
+            return formModel;
         } catch (error) {
             console.error(`[ERROR] - Error to create the persistable form model!`)
-            return Promise.reject(error);
+            return error;
         }
     }
     /**
