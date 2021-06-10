@@ -2,7 +2,12 @@ class FormRepository {
     constructor(dynamoose) {
         this.Dynamoose = dynamoose;
         this.FormSchema = this.setupSchema();
-        this.FormModel = this.Dynamoose.model("FormsTable", this.FormSchema, {waitForActive: {enabled: false}});
+        this.Dynamoose.model.defaults.set({
+            "waitForActive": {
+                "enabled": false
+            },
+        });
+        this.FormModel = this.Dynamoose.model("FormsTable", this.FormSchema);
     }
 
     setupSchema() {
