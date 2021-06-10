@@ -1,11 +1,16 @@
 console.log(`Form Consumer Lambda Starting...`);
 const { SqsConsumer } = require('sns-sqs-big-payload');
 const Dynamoose = require('dynamoose');
-var AWSXRay = require('aws-xray-sdk');
-Dynamoose.AWS = AWSXRay.captureAWS(require('aws-sdk'));
-const FormService = require('./src/services/form.service');
+var AWSXRay = require('aws-xray-sdk-core');
+var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 console.log(`Libraries loaded...`);
 
+const FormService = require('./src/services/form.service');
+
+const segment = AWSXRay.getSegment(); //returns the facade segment
+const subsegment = segment.addNewSubsegment('subseg');
+
+Dynamoose.AWS = AWS;
 const formService = new FormService(Dynamoose);
 const sqsConsumer = SqsConsumer.create({
     region: 'us-east-1',
@@ -14,6 +19,8 @@ const sqsConsumer = SqsConsumer.create({
     parsePayload: (raw) => JSON.parse(raw),
     handleBatch: async (records) => {
         let messages = records.map(record => {
+            const subsegment = segment.addNewSubsegment('subseg');
+            subsegment.
             return formService.getPersistableForm(record.payload);
         });
         return await formService.batchFormPersist(messages);

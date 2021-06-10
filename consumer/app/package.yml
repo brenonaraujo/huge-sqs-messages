@@ -83,13 +83,16 @@ Resources:
               Fn::GetAtt:
               - FormConsumerQueue
               - Arn
+      ManagedPolicyArns:
+      - arn:aws:iam::aws:policy/CloudWatchLambdaInsightsExecutionRolePolicy
   FormConsumerLambda:
     Type: AWS::Serverless::Function
     Properties:
       Tracing: Active
       Layers:
       - Ref: Libs
-      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/bc3e109ded987283a37ab72c7297bb3f
+      - Fn::Sub: arn:aws:lambda:${AWS::Region}:580247275435:layer:LambdaInsightsExtension:14
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/9909d40220e230fb92c836817ad97f60
       Handler: app.handler
       Runtime: nodejs12.x
       Timeout: 30
@@ -112,7 +115,7 @@ Resources:
     Properties:
       LayerName: consumer-nodejs-lib
       Description: Dependencies for the consumer lambda.
-      ContentUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/b4bb1898088cd54e75b4613bceb8c3c6
+      ContentUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/2a20f1a9992e872c6b1f0a2896c8c5a8
       CompatibleRuntimes:
       - nodejs10.x
       - nodejs12.x
