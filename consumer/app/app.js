@@ -7,9 +7,6 @@ console.log(`Libraries loaded...`);
 
 const FormService = require('./src/services/form.service');
 
-const segment = AWSXRay.getSegment(); //returns the facade segment
-const subsegment = segment.addNewSubsegment('subseg');
-
 Dynamoose.AWS = AWS;
 const formService = new FormService(Dynamoose);
 const sqsConsumer = SqsConsumer.create({
@@ -18,11 +15,13 @@ const sqsConsumer = SqsConsumer.create({
     s3Bucket: 'sqs-huge-messages',
     parsePayload: (raw) => JSON.parse(raw),
     handleBatch: async (records) => {
-        let messages = records.map(record => {
-            const subsegment = segment.addNewSubsegment('subseg');
-            subsegment.
-            return formService.getPersistableForm(record.payload);
-        });
+        let messages;
+        AWSXRay.captureFunc('map:persistableForm', (subsegment) => {
+            messages = records.map(record => {
+                return formService.getPersistableForm(record.payload);
+            });
+            subsegment.close();
+        })
         return await formService.batchFormPersist(messages);
     }
 });

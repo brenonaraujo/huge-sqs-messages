@@ -17,7 +17,7 @@
   "license": "MIT",
   "dependencies": {
     "aws-sdk": "^2.923.0",
-    "aws-xray-sdk": "^3.3.3",
+    "aws-xray-sdk-core": "^3.3.3",
     "dynamoose": "^2.7.3",
     "sns-sqs-big-payload": "^0.1.2"
   }
