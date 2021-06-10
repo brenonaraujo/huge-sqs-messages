@@ -92,7 +92,7 @@ Resources:
       Layers:
       - Ref: Libs
       - Fn::Sub: arn:aws:lambda:${AWS::Region}:580247275435:layer:LambdaInsightsExtension:14
-      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/5d0d062f4c8917a3c1f3357dd0b26703
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/37ab8cae8960d3f0f2df19757753a12b
       Handler: app.handler
       Runtime: nodejs12.x
       Timeout: 30
