@@ -1,8 +1,6 @@
-const FormRepository = require('../repository/form.repository');
-
 class FormService {
-    constructor(Dynamoose) {
-        this.FormRepository = new FormRepository(Dynamoose);
+    constructor(FormRepository) {
+        this.FormRepository = FormRepository;
     }
     /**
      * @param {*} form 

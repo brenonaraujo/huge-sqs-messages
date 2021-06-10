@@ -5,10 +5,11 @@ var AWSXRay = require('aws-xray-sdk-core');
 var AWS = AWSXRay.captureAWS(require('aws-sdk'));
 console.log(`Libraries loaded...`);
 
+const FormRepository = require('./src/repository/form.repository');
 const FormService = require('./src/services/form.service');
 
 Dynamoose.AWS = AWS;
-const formService = new FormService(Dynamoose);
+const formService = new FormService(new FormRepository(FormRepository));
 const sqsConsumer = SqsConsumer.create({
     region: 'us-east-1',
     getPayloadFromS3: true,
