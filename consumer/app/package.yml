@@ -92,7 +92,7 @@ Resources:
       Layers:
       - Ref: Libs
       - Fn::Sub: arn:aws:lambda:${AWS::Region}:580247275435:layer:LambdaInsightsExtension:14
-      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/9909d40220e230fb92c836817ad97f60
+      CodeUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/84d489a43359899fab854e9260bc5aab
       Handler: app.handler
       Runtime: nodejs12.x
       Timeout: 30
@@ -115,7 +115,7 @@ Resources:
     Properties:
       LayerName: consumer-nodejs-lib
       Description: Dependencies for the consumer lambda.
-      ContentUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/2a20f1a9992e872c6b1f0a2896c8c5a8
+      ContentUri: s3://cf-templates-qmg6cj5zoef4-us-east-1/da2f0ea9fc7aa69ec2bf86da17520b4b
       CompatibleRuntimes:
       - nodejs10.x
       - nodejs12.x

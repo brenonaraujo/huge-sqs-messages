@@ -17,12 +17,14 @@ const sqsConsumer = SqsConsumer.create({
     handleBatch: async (records) => {
         let messages;
         AWSXRay.captureFunc('map:persistableForm', (subsegment) => {
-            messages = records.map(record => {
-                return formService.getPersistableForm(record.payload);
-            });
+            messages = records.map(record => formService.getPersistableForm(record.payload));
             subsegment.close();
         })
-        return await formService.batchFormPersist(messages);
+        AWSXRay.captureAsyncFunc('async:batchFormPersist', async (segment) => {
+            const result = await formService.batchFormPersist(messages);
+            segment.close();
+            return result;
+        });
     }
 });
 console.log(`Consumer service created...`);
@@ -30,12 +32,16 @@ console.log(`Consumer service created...`);
 exports.handler = async (event, context) => {
     try {
         console.log(`Message/s received.`);
+        let rawMessages;
         // TODO: The library that we are using sns-sqs-huge-payload need the body in upper case -.-
-        const rawMessages = event.Records.map((record) => {
-            record.Body = record.body;
-            record.MessageAttributes = record.messageAttributes;
-            return record;
-        })
+        AWSXRay.captureFunc('map:recordMapper', (subsegment) => {
+            rawMessages = event.Records.map((record) => {
+                record.Body = record.body;
+                record.MessageAttributes = record.messageAttributes;
+                return record;
+            });
+            subsegment.close();
+        });
         console.log(`Starting to process messages.`)
         const result = await sqsConsumer.processBatch(rawMessages);
         console.log(result);
