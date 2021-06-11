@@ -17,10 +17,7 @@ class FormRepository {
             "CreatedDate": String
         }, {
             "saveUnknown": true,
-            "timestamps": {
-                "createdAt": ["createDate", "creation"],
-                "updatedAt": ["updateDate", "updated"]
-            }
+            "timestamps": false
         });
     }
 }

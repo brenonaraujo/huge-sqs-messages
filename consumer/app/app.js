@@ -9,6 +9,7 @@ const FormRepository = require('./src/repository/form.repository');
 const FormService = require('./src/services/form.service');
 
 Dynamoose.AWS = AWS;
+Dynamoose.logger.providers.set(console);
 const formService = new FormService(new FormRepository(Dynamoose));
 const sqsConsumer = SqsConsumer.create({
     region: 'us-east-1',
