@@ -18,7 +18,7 @@ const sqsConsumer = SqsConsumer.create({
     handleBatch: async (records) => {
         let messages;
         AWSXRay.captureFunc('map:persistableForm', (subsegment) => {
-            messages = records.map(record => fosrmService.getPersistableForm(record.payload));
+            messages = records.map(record => formService.getPersistableForm(record.payload));
             subsegment.close();
         })
         return await AWSXRay.captureAsyncFunc('batchFormPersist',
