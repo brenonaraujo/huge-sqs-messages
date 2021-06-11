@@ -3,6 +3,7 @@ class FormRepository {
         this.Dynamoose = dynamoose;
         this.FormSchema = this.setupSchema();
         this.Dynamoose.model.defaults.set({
+            "create": false,
             "waitForActive": {
                 "enabled": false
             },

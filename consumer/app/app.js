@@ -21,8 +21,12 @@ const sqsConsumer = SqsConsumer.create({
             messages = records.map(record => formService.getPersistableForm(record.payload));
             subsegment.close();
         })
-        const result = await formService.batchFormPersist(messages);
-        return result;
+        return await AWSXRay.captureAsyncFunc('batchFormPersist',
+            async function (subsegment) {
+                const result = await formService.batchFormPersist(messages);
+                subsegment.close();
+                return result;
+        });
     }
 });
 console.log(`Consumer service created...`);

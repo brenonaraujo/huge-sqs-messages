@@ -32,8 +32,11 @@ class FormService {
         } catch (error) {
             console.error(`[ERROR] - Error to persist forms in batch operation,`, error);
             return Promise.reject(error);
+        } finally {
+            subsegment.close();
         }
     }
+
 }
 
 module.exports = FormService;
