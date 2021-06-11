@@ -27,6 +27,7 @@ const sqsConsumer = SqsConsumer.create({
                 subsegment.close();
                 return result;
         });
+
     }
 });
 console.log(`Consumer service created...`);
