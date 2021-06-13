@@ -4,6 +4,7 @@ class FormRepository {
         this.FormSchema = this.setupSchema();
         this.Dynamoose.model.defaults.set({
             "create": false,
+            "expires": 900000,
             "waitForActive": {
                 "enabled": false
             },
